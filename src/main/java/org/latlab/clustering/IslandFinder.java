@@ -536,10 +536,9 @@ public class IslandFinder {
 
 		/**
 		 * Computes the mutual information between two discrete variables.
-		 * 
-		 * @param discretizedData
-		 * @param v1
-		 * @param v2
+		 *
+		 * @param vi
+		 * @param vj
 		 * @return
 		 * @throws Exception
 		 */
@@ -563,9 +562,7 @@ public class IslandFinder {
 		/**
 		 * Computes a the mutual information between each pair of variables. It
 		 * does not contain any valid value on the diagonal.
-		 * 
-		 * @param includeClassVariable
-		 *            whether to include the class variable
+		 *
 		 * @return mutual information for each pair of variables
 		 */
 		public double[][] computerPairwise() {

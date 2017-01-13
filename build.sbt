@@ -29,19 +29,3 @@ libraryDependencies ++= Seq (
   "colt" % "colt" % "1.2.0",
   "nz.ac.waikato.cms.weka" % "weka-stable" % "3.6.13"
 )
-
-assemblyJarName in assembly := "HLTA.jar"
-
-assemblyOption in assembly :=
-  (assemblyOption in assembly).value.copy(
-    includeScala = false, includeDependency = false)
-
-// To skip test during assembly
-test in assembly := {}
-
-assemblyMergeStrategy in assembly := {
-  case PathList("java_cup", "runtime", xs @ _* )   => MergeStrategy.first
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
