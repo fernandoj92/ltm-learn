@@ -406,4 +406,39 @@ public class Function2D extends Function {
 		}
 	}
 
+	@Override
+	public final Function myDivide(Function function) {
+		if (function.getDimension() == 0) {
+			// super.myDivide(double constant)
+			return myDivide(function._cells[0]);
+		}
+		else if (function instanceof Function1D) {
+            Function result = this.clone();
+			int xCard = _x.getCardinality();
+			int yCard = _y.getCardinality();
+			int index = 0;
+			if (_x == ((Function1D) function)._x) {
+				for (int i = 0; i < xCard; i++) {
+					for (int j = 0; j < yCard; j++) {
+						result._cells[index] /= function._cells[i];
+						index++;
+					}
+				}
+			} else {
+				for (int i = 0; i < xCard; i++) {
+					for (int j = 0; j < yCard; j++) {
+						result._cells[index] /= function._cells[j];
+						index++;
+					}
+				}
+			}
+			return result;
+		} else {
+            Function result = this.clone();
+			for (int i = 0; i < getDomainSize(); i++) {
+				result._cells[i] /= function._cells[i];
+			}
+			return result;
+		}
+	}
 }

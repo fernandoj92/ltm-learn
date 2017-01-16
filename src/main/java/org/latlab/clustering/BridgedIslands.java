@@ -64,12 +64,12 @@ public class BridgedIslands {
     /**
      * Parameter for EM.
      */
-    protected final int _EmMaxSteps = 50;
+    protected final int _EmMaxSteps = 80; // 50
 
     /**
      * Parameter for EM.
      */
-    protected final int _EmNumRestarts = 5;
+    protected final int _EmNumRestarts = 10; // 5
 
     /**
      * Maximum number of island size

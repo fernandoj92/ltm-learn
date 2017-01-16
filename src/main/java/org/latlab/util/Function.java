@@ -41,6 +41,25 @@ public class Function implements Cloneable {
 			new Date()));
 
 	/**
+	 * the array of variables involved in this function. we use array for fast
+	 * and random access.
+	 */
+	protected Variable[] _variables;
+
+	/**
+	 * the array of magnitudes for variables of this function. this data
+	 * structure is included for fast indexing. note that the first variable is
+	 * at the most significant place.
+	 */
+	protected int[] _magnitudes;
+
+	/**
+	 * the one-dimensional array representation of the cells of this function.
+	 * we use array for fast and random access.
+	 */
+	protected double[] _cells;
+
+	/**
 	 * Returns a function of the specified list of variables.
 	 * 
 	 * @param variables
@@ -242,25 +261,6 @@ public class Function implements Cloneable {
 
 		return f;
 	}
-
-	/**
-	 * the array of variables involved in this function. we use array for fast
-	 * and random access.
-	 */
-	protected Variable[] _variables;
-
-	/**
-	 * the array of magnitudes for variables of this function. this data
-	 * structure is included for fast indexing. note that the first variable is
-	 * at the most significant place.
-	 */
-	protected int[] _magnitudes;
-
-	/**
-	 * the one-dimensional array representation of the cells of this function.
-	 * we use array for fast and random access.
-	 */
-	protected double[] _cells;
 
 	/**
 	 * <p>
@@ -1873,6 +1873,7 @@ public class Function implements Cloneable {
 	 * @param function
 	 * @return
 	 */
+	// TODO: No modificar porque se utiliza en el CliqueTree y recordar que 2D y 1D tienen propias implementaciones
 	public void divide(Function function) {
 		int fDim = getDimension();
 		int gDim = function.getDimension();
@@ -1910,6 +1911,57 @@ public class Function implements Cloneable {
 		}
 		return;
 	}
+
+	public Function myDivide(Function function){
+        int fDim = getDimension();
+        int gDim = function.getDimension();
+
+        if (fDim == 0 || gDim == 0) {
+            return myDivide(function._cells[0]);
+        }
+
+        int[] gMap = new int[gDim];
+        int fIndex = 0;
+        int gIndex = 0;
+        while (true) {
+            if (function._variables[gIndex] == _variables[fIndex]) {
+                gMap[gIndex++] = fIndex++;
+                if (gIndex == gDim)
+                    break;
+            } else {
+                fIndex++;
+            }
+        }
+
+        int[] fStates = new int[fDim];
+        int[] gStates = new int[gDim];
+        Function result = clone();
+        for (int i = 0; i < getDomainSize(); i++) {
+            // one-dimensional index to multi-dimensional indices
+            computeStates(i, fStates);
+
+            // projects to states in g
+            for (int j = 0; j < gDim; j++) {
+                gStates[j] = fStates[gMap[j]];
+            }
+            double gcell = function._cells[function.computeIndex(gStates)];
+            result._cells[i] /= gcell;
+        }
+
+        return result;
+    }
+
+    // Inspired by this.times(double constant)
+    public Function myDivide(double constant){
+        Function f = clone();
+
+        int domainSize = getDomainSize();
+        for (int i = 0; i < domainSize; i++) {
+            f._cells[i] /= constant;
+        }
+
+        return f;
+    }
 
 	/**
 	 * <p>

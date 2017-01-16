@@ -14,8 +14,8 @@ import java.util.Collection;
 public class BI_Examples {
 
     public static void main(String[] args){
-        islandFinderExample();
-        //BIExample();
+        //islandFinderExample();
+        BIExample();
     }
 
     private static void islandFinderExample(){
@@ -39,6 +39,9 @@ public class BI_Examples {
             BridgedIslands bi = new BridgedIslands();
             LTM ltm = bi.learnLTM(data);
             System.out.println(ltm.toString(1));
+            System.out.println("BIC: "+ ltm.getBICScore(data));
+            System.out.println("AIC: "+ ltm.getLoglikelihood(data));
+            System.out.println("LL: "+ ltm.getAICScore(data));
 
         }catch(Exception e) {
             e.printStackTrace();
