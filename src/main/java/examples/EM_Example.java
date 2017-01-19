@@ -56,6 +56,20 @@ public class EM_Example {
         emSprinklerLatentCloudy();
     }
 
+    // Vamo a ve si entendemo er EM
+    // Comprobamos que las Prob son diferentes cuando hay una variable latent de cuando no lo hay
+    // Pero realmente es que la información mutua no deberia de cambiar, aunque cambien los parametros
+    private static void rainSprinklerLatentCheck(){
+
+        System.out.println("---------------- MLE Sprinkler Rain Independent ----------------");
+        System.out.println("--------------------------------------------------------------------");
+        mleSprinklerRain();
+
+        System.out.println("---------------- EM Sprinkler & Rain With Latent Cloudy -----------------");
+        System.out.println("--------------------------------------------------------------------");
+        emSprinklerRainLatent();
+    }
+
     private static void mleSprinklerFull(){
         try {
             DataSet data = new DataSet(DataSetLoader.convert("data/sprinklerData300.arff"));
@@ -228,5 +242,15 @@ public class EM_Example {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    // Only sprinkler and Rain, both independent, with no Cloudy variable
+    private static void mleSprinklerRain(){
+        // TODO
+    }
+
+    // Sprinkler, rain and a latent variable that resembles the Cloudy variable
+    private static void emSprinklerRainLatent(){
+        // TODO
     }
 }
